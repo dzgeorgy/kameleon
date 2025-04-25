@@ -4,4 +4,5 @@ plugins {
 
 dependencies {
     implementation(libs.ksp.api)
+    implementation(projects.core)
 }
