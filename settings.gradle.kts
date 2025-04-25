@@ -19,4 +19,5 @@ dependencyResolutionManagement {
 rootProject.name = "kameleon"
 
 include(":core")
+include(":ksp")
 include(":sample")
