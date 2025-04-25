@@ -5,6 +5,7 @@ plugins {
 
 kotlin {
     jvm()
+    js()
 
     sourceSets {
         commonMain.dependencies {

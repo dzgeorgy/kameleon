@@ -5,6 +5,7 @@ plugins {
 kotlin {
     // Targets
     jvm()
+    js()
 
     // Config
     explicitApi()
