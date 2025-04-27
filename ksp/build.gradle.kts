@@ -4,5 +4,6 @@ plugins {
 
 dependencies {
     implementation(libs.ksp.api)
+    implementation(libs.kotlinPoet.ksp)
     implementation(projects.core)
 }
