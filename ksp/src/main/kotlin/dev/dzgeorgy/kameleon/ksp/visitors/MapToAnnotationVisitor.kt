@@ -14,6 +14,9 @@ import dev.dzgeorgy.kameleon.ksp.models.MapToAnnotationData
 import dev.dzgeorgy.kameleon.ksp.models.MapperData
 import dev.dzgeorgy.kameleon.ksp.models.ParameterData
 import dev.dzgeorgy.kameleon.ksp.models.PropertyData
+import dev.dzgeorgy.kameleon.ksp.utils.getParameters
+import dev.dzgeorgy.kameleon.ksp.utils.getProperties
+import dev.dzgeorgy.kameleon.ksp.utils.matchParametersToProperties
 
 class MapToAnnotationVisitor(
     private val logger: KSPLogger
@@ -44,36 +47,6 @@ class MapToAnnotationVisitor(
         return MapToAnnotationData(
             target = (this.arguments.first().value as KSType).declaration.closestClassDeclaration()!!,
         )
-    }
-
-    private fun KSClassDeclaration.getParameters(): List<ParameterData> {
-        return this.primaryConstructor?.parameters?.map { parameter ->
-            ParameterData(
-                name = parameter.name!!.asString(),
-                type = parameter.type.resolve(),
-            )
-        } ?: emptyList()
-    }
-
-    private fun KSClassDeclaration.getProperties(): List<PropertyData> {
-        return this.getAllProperties().map { property ->
-            PropertyData(
-                name = property.simpleName.asString(),
-                type = property.type.resolve(),
-            )
-        }.toList()
-    }
-
-    private fun matchParametersToProperties(
-        parameters: List<ParameterData>,
-        properties: List<PropertyData>
-    ): Map<ParameterData, PropertyData> {
-        return parameters.associateWith { parameter ->
-            properties.first { property ->
-                parameter.name == property.name &&
-                        parameter.type.isAssignableFrom(property.type)
-            }
-        }
     }
 
 }

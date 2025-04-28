@@ -1,11 +1,7 @@
 package dev.dzgeorgy.kameleon
 
-import kotlin.reflect.KClass
-
 @Retention(AnnotationRetention.SOURCE)
 @Target(AnnotationTarget.CLASS)
-public annotation class Mapper(
-    val mapper: KClass<CustomMapper<*, *>>
-)
+public annotation class Mapper
 
-public interface CustomMapper<From: Any, To: Any>
+public interface CustomMapper<in From : Any, out To : Any>
