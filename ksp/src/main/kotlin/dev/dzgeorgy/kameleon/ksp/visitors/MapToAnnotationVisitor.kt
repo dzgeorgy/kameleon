@@ -12,8 +12,6 @@ import com.google.devtools.ksp.visitor.KSTopDownVisitor
 import dev.dzgeorgy.kameleon.MapTo
 import dev.dzgeorgy.kameleon.ksp.models.MapToAnnotationData
 import dev.dzgeorgy.kameleon.ksp.models.MapperData
-import dev.dzgeorgy.kameleon.ksp.models.ParameterData
-import dev.dzgeorgy.kameleon.ksp.models.PropertyData
 import dev.dzgeorgy.kameleon.ksp.utils.getParameters
 import dev.dzgeorgy.kameleon.ksp.utils.getProperties
 import dev.dzgeorgy.kameleon.ksp.utils.matchParametersToProperties
@@ -27,19 +25,19 @@ class MapToAnnotationVisitor(
     }
 
     @OptIn(KspExperimental::class)
-    override fun visitClassDeclaration(classDeclaration: KSClassDeclaration, data: Unit): MapperData {
-        logger.info("Processing class: ${classDeclaration.qualifiedName?.asString()}", classDeclaration)
-        logger.info("Has annotation: ${classDeclaration.isAnnotationPresent(MapTo::class)}", classDeclaration)
-        val mapToAnnotationData = classDeclaration.annotations.first().getAnnotationData()
+    override fun visitClassDeclaration(source: KSClassDeclaration, data: Unit): MapperData {
+        logger.info("Processing class: ${source.qualifiedName?.asString()}", source)
+        logger.info("Has annotation: ${source.isAnnotationPresent(MapTo::class)}", source)
+        val mapToAnnotationData = source.annotations.first().getAnnotationData()
         val mapperData = MapperData(
-            classDeclaration,
+            source,
             mapToAnnotationData.target,
             mappers = matchParametersToProperties(
-                classDeclaration.getParameters(),
-                mapToAnnotationData.target.getProperties(),
+                mapToAnnotationData.target.getParameters(),
+                source.getProperties(),
             ),
         )
-        logger.info("Mapper data: $mapperData", classDeclaration)
+        logger.info("Mapper data: $mapperData", source)
         return mapperData
     }
 
