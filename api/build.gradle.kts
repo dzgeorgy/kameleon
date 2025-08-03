@@ -1,21 +1,20 @@
 plugins {
-    kotlin("jvm") version "2.2.0"
+    alias(libs.plugins.kotlin.multiplatform)
 }
 
 group = "dev.dzgeorgy.kameleon"
-version = "unspecified"
+version = "0.1.0-SNAPSHOT"
 
-repositories {
-    mavenCentral()
-}
-
-dependencies {
-    testImplementation(kotlin("test"))
-}
-
-tasks.test {
-    useJUnitPlatform()
-}
 kotlin {
-    jvmToolchain(8)
+    jvm()
+
+    jvmToolchain(17)
+
+    sourceSets {
+        val commonTest by getting {
+            dependencies {
+                implementation(libs.kotlin.test)
+            }
+        }
+    }
 }
