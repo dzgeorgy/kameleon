@@ -13,3 +13,5 @@ plugins {
 
 rootProject.name = "kameleon"
 include("lib")
+
+include("api")
